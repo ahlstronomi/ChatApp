@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.ahlstrom.chatappclient.ChatActivity.NOTIFICATION;
 import static com.example.ahlstrom.chatappclient.ChatActivity.RECEIVED;
@@ -17,15 +18,15 @@ import static com.example.ahlstrom.chatappclient.ChatActivity.SENT;
  * Created by Ahlstrom on 5.10.2017.
  */
 
-public class MessageList extends RecyclerView.Adapter {
+public class MessageListAdapter extends RecyclerView.Adapter {
 
-    ArrayList<Message> msgList;
+    List<Message> msgList;
     private Context msgContext;
 
     ChatActivity chtAct = new ChatActivity();
 
 
-    public MessageList(Context context, ArrayList<Message> messageList){
+    public MessageListAdapter(Context context, List<Message> messageList){
         this.msgContext = context;
         this.msgList = messageList;
     }

@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ChatActivity extends AppCompatActivity {
@@ -30,12 +31,13 @@ public class ChatActivity extends AppCompatActivity {
     private PrintStream outputStream;
     private String messages;
     private Scanner in;
-    private MessageList msgList;
+    private MessageListAdapter msgListAdapter;
     private User user;
     public String ownUserId;
+    private List messageList;
     private boolean hasUserId = false;
     private boolean messageSent = false;
-    private ArrayList messageList = new ArrayList();
+
 
     public static final int SENT = 1;
     public static final int RECEIVED = 2;
@@ -50,12 +52,18 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        btn = (Button) findViewById(R.id.button_chatbox_send);
-        msgField = (EditText) findViewById(R.id.edittext_chatbox);
+        messageList = new ArrayList();
+
+
+        // TODO KUPLAT EI TULE RUUDULLE
+        msgListAdapter = new MessageListAdapter(this, messageList);
         messagesView = (RecyclerView) findViewById(R.id.reyclerview_message_list);
-        msgList = new MessageList(this, messageList);
+        // messagesView.setAdapter(msgListAdapter);
         messagesView.setLayoutManager(new LinearLayoutManager(this));
 
+
+        btn = (Button) findViewById(R.id.button_chatbox_send);
+        msgField = (EditText) findViewById(R.id.edittext_chatbox);
 
         Intent intent = getIntent();
         ipNum = intent.getStringExtra("ipNum");
@@ -73,7 +81,9 @@ public class ChatActivity extends AppCompatActivity {
                     socket = new Socket(ipNum, socketNum);
                     outputStream = new PrintStream(socket.getOutputStream(), true);
                     in = new Scanner(socket.getInputStream());
-                    outputStream.println(usrname);
+
+                    // TODO: Selvitä, miksi tämä ei toimi!!!
+                    outputStream.println(user.getUsername());
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -84,7 +94,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     messages = in.nextLine();
 
-                    if (!messages.isEmpty()) {
+                    Log.d("InputStream", messages);
 
                     String[] splitted = messages.split("¢", 4);
                     String senderId = splitted[0];
@@ -94,6 +104,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     if (!hasUserId && splitted[1].equals("NOTIFICATION") && splitted[0].equals("x")) {
                         ownUserId = splitted[2];
+                        Log.d("OWN USER ID ", ownUserId);
                         hasUserId = true;
                     }
 
@@ -101,7 +112,6 @@ public class ChatActivity extends AppCompatActivity {
                         msg = new Message(senderId, sender, timeOrNotficicationInfo, justMessage);
                         UpdateView(msg);
 
-                    }
 
                 }
             }
@@ -124,8 +134,9 @@ public class ChatActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        Log.d("MESSAGE: ", s);
+
                         outputStream.println(s);
-                        messageSent = true;
                     }
                 }).start();
                 msgField.getText().clear();
@@ -141,7 +152,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void run() {
                 messageList.add(msg);
-                msgList.notifyDataSetChanged();
+                msgListAdapter.notifyDataSetChanged();
                 messagesView.scrollToPosition(messageList.size()-1);
 
             }
