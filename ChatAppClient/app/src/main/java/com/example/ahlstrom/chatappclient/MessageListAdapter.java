@@ -27,8 +27,10 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
 
     public MessageListAdapter(Context context, List<Message> messageList){
+        Log.d("MessageListAdapter: ", "Creating");
         msgContext = context;
         msgList = messageList;
+        Log.d("MessageListAdapter: ", "Created");
     }
 
 
@@ -39,6 +41,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
 
     public int getItemViewType(int position) {
+        Log.d("getItemViewType: ", "IN HERE");
+
         Message message = msgList.get(position);
 
         if (message.getSenderId().equals(chtAct.getUserId())) {
@@ -57,6 +61,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view;
+
+        Log.d("onCreateViewHolder: ", "IN HERE");
 
         if (viewType == SENT) {
             Log.d("onCreateViewHolder: ", "inflating SENT message");
@@ -80,6 +86,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        Log.d("onBindViewHolder: ", "IN HERE");
+
         Message message = (Message) msgList.get(position);
 
         switch (holder.getItemViewType()) {
@@ -107,6 +116,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
             nameText = (TextView) itemView.findViewById(R.id.text_message_name);
+
+            Log.d("ReceivedMessageHolder: ", "Created");
+
         }
 
         void bind(Message message) {
@@ -129,6 +141,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
             nameText = (TextView) itemView.findViewById(R.id.text_message_name);
 
+            Log.d("SentMessageHolder: ", "Created");
+
         }
 
         void bind(Message message) {
@@ -149,6 +163,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
+
+            Log.d("NotificationHolder: ", "Created");
 
         }
 

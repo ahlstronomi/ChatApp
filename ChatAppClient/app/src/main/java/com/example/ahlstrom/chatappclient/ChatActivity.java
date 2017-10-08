@@ -42,17 +42,25 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        // TODO FIGURE THIS SHIT OUT
+
+        // Step 1: Set the layout
         setContentView(R.layout.activity_chat);
 
         btn = (Button) findViewById(R.id.button_chatbox_send);
         msgField = (EditText) findViewById(R.id.edittext_chatbox);
+
+        // Step 2: Find view by id
         messagesView = (RecyclerView) findViewById(R.id.reyclerview_message_list);
 
         messageList = new ArrayList<>();
 
-        // TODO FIGURE THIS SHIT OUT
+        // Step 3: New adapter
         msgListAdapter = new MessageListAdapter(this, messageList);
+        // Step 4: Set adapter
         messagesView.setAdapter(msgListAdapter);
+        // Step 5: Set layout managerTesti
         messagesView.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
@@ -150,6 +158,7 @@ public class ChatActivity extends AppCompatActivity {
                 messageList.add(msg);
                 Log.d("Msg added to dataset: ", messageList.toString());
                 msgListAdapter.notifyDataSetChanged();
+                Log.d("Items in adapter: ", String.valueOf(msgListAdapter.getItemCount()));
                 messagesView.scrollToPosition(messageList.size()-1);
                 Log.d("UpdateView ", "Complete");
 
