@@ -2,17 +2,13 @@ package com.example.ahlstrom.chatappclient;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.ahlstrom.chatappclient.ChatActivity.NOTIFICATION;
-import static com.example.ahlstrom.chatappclient.ChatActivity.RECEIVED;
-import static com.example.ahlstrom.chatappclient.ChatActivity.SENT;
 
 /**
  * Created by Ahlstrom on 5.10.2017.
@@ -20,25 +16,39 @@ import static com.example.ahlstrom.chatappclient.ChatActivity.SENT;
 
 public class MessageListAdapter extends RecyclerView.Adapter {
 
-    List<Message> msgList;
+    public static final int SENT = 1;
+    public static final int RECEIVED = 2;
+    public static final int NOTIFICATION = 0;
+
     private Context msgContext;
+    List<Message> msgList;
 
     ChatActivity chtAct = new ChatActivity();
 
 
     public MessageListAdapter(Context context, List<Message> messageList){
-        this.msgContext = context;
-        this.msgList = messageList;
+        msgContext = context;
+        msgList = messageList;
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return msgList.size();
     }
 
 
     public int getItemViewType(int position) {
         Message message = msgList.get(position);
+
         if (message.getSenderId().equals(chtAct.getUserId())) {
+            Log.d("getItemViewType: ", "SENT");
             return SENT;
         } else if(message.getSenderId().equals("x")){
+            Log.d("getItemViewType ", "NOTIFICATION");
             return NOTIFICATION;
         } else{
+            Log.d("getItemViewType ", "RECEIVED");
             return RECEIVED;
         }
     }
@@ -49,14 +59,17 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         View view;
 
         if (viewType == SENT) {
+            Log.d("onCreateViewHolder: ", "inflating SENT message");
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_sent, parent, false);
             return new SentMessageHolder(view);
         } else if (viewType == RECEIVED) {
+            Log.d("onCreateViewHolder: ", "inflating RECIVED message");
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_received, parent, false);
             return new ReceivedMessageHolder(view);
         } else if (viewType == NOTIFICATION) {
+            Log.d("onCreateViewHolder: ", "inflating NOTIFICATION message");
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_notification, parent, false);
             return new ReceivedMessageHolder(view);
@@ -82,10 +95,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     }
 
-    @Override
-    public int getItemCount() {
-        return msgList.size();
-    }
+
 
     // PRIVATE CLASSES -----------------------------------------------------------------------------
 
