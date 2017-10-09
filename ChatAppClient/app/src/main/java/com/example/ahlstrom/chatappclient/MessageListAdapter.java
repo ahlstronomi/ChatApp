@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Ahlstrom on 5.10.2017.
@@ -119,7 +118,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     private class SentMessageHolder extends RecyclerView.ViewHolder {
 
-        TextView messageText, timeText, nameText;
+        TextView messageText, timeText;
 
         public SentMessageHolder(View itemView) {
             super(itemView);

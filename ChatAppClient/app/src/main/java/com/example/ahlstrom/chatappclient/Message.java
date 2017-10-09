@@ -18,14 +18,17 @@ public class Message {
     private String timeOrNotificationInfo;
     private String msg;
 
-    public Message(String sndrId, String sndr, String timeStampOrNotificationInfo, String message) {
 
-        this.senderId = sndrId;
-        this.sender = sndr;
-        this.timeOrNotificationInfo = timeStampOrNotificationInfo;
-        this.msg = message;
+    public Message(String scannerIn) {
+
+        String[] splitted = scannerIn.split("¢", 4);
+        this.senderId = splitted[0];
+        this.sender = splitted[1];
+        this.timeOrNotificationInfo = splitted[2];
+        this.msg = splitted[3];
 
     }
+
 
     public String getSenderId() {
         return this.senderId;
