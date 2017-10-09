@@ -28,7 +28,6 @@ public class ChatActivity extends AppCompatActivity {
     private int socketNum = 1337;
     private String ipNum = "10.0.2.2";
     private String messages;
-    public String ownUserId;
     private boolean hasUserId = false;
     private InputStream inputStream;
     private PrintStream outputStream;
@@ -101,18 +100,18 @@ public class ChatActivity extends AppCompatActivity {
                     String sender = splitted[1];
                     Log.d("Sender ", sender);
 
-                    String timeOrNotficicationInfo = splitted[2];
-                    Log.d("Time", timeOrNotficicationInfo);
+                    String timeOrNotificationInfo = splitted[2];
+                    Log.d("Time", timeOrNotificationInfo);
 
                     String justMessage = splitted[3];
 
                     if (!hasUserId && splitted[1].equals("NOTIFICATION") && splitted[0].equals("x")) {
-                        ownUserId = timeOrNotficicationInfo;
-                        Log.d("OWN USER ID ", ownUserId);
+                        msgListAdapter.setOwnUserId(timeOrNotificationInfo);
+                        Log.d("OWN USER ID ", msgListAdapter.getOwnUserId());
                         hasUserId = true;
                     }
 
-                    Message msg = new Message(senderId, sender, timeOrNotficicationInfo, justMessage);
+                    Message msg = new Message(senderId, sender, timeOrNotificationInfo, justMessage);
                     Log.d("Message ", msg.toString());
                     UpdateView(msg);
 
@@ -166,8 +165,4 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-
-    public String getUserId() {
-        return ownUserId;
-    }
 }

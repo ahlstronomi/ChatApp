@@ -20,6 +20,16 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     public static final int RECEIVED = 2;
     public static final int NOTIFICATION = 0;
 
+    public String getOwnUserId() {
+        return ownUserId;
+    }
+
+    public void setOwnUserId(String ownUserId) {
+        this.ownUserId = ownUserId;
+    }
+
+    private String ownUserId;
+
     private Context msgContext;
     List<Message> msgList;
 
@@ -45,14 +55,20 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         Message message = msgList.get(position);
 
-        if (message.getSenderId().equals(chtAct.getUserId())) {
+        if (message.getSenderId().equals(ownUserId)) {
             Log.d("getItemViewType: ", "SENT");
+            Log.d("OWN SENDER ID: ", ownUserId);
+            Log.d("MESSAGE SENDER ID: ", message.getSenderId());
             return SENT;
         } else if(message.getSenderId().equals("x")){
             Log.d("getItemViewType ", "NOTIFICATION");
+            Log.d("OWN SENDER ID: ", ownUserId);
+            Log.d("MESSAGE SENDER ID: ", message.getSenderId());
             return NOTIFICATION;
         } else{
             Log.d("getItemViewType ", "RECEIVED");
+            Log.d("OWN SENDER ID: ", ownUserId);
+            Log.d("MESSAGE SENDER ID: ", message.getSenderId());
             return RECEIVED;
         }
     }
@@ -78,7 +94,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             Log.d("onCreateViewHolder: ", "inflating NOTIFICATION message");
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_notification, parent, false);
-            return new ReceivedMessageHolder(view);
+            return new NotificationHolder(view);
         }
 
         return null;
@@ -93,12 +109,15 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         switch (holder.getItemViewType()) {
             case SENT:
+                Log.d("onBindViewHolder: ", "SENT");
                 ((SentMessageHolder) holder).bind(message);
                 break;
             case RECEIVED:
+                Log.d("onBindViewHolder: ", "RECEIVED");
                 ((ReceivedMessageHolder) holder).bind(message);
                 break;
             case NOTIFICATION:
+                Log.d("onBindViewHolder: ", "NOTIFICATION");
                 ((NotificationHolder) holder).bind(message);
         }
 
@@ -139,16 +158,15 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
-            nameText = (TextView) itemView.findViewById(R.id.text_message_name);
 
             Log.d("SentMessageHolder: ", "Created");
+
 
         }
 
         void bind(Message message) {
             messageText.setText(message.getMsg());
             timeText.setText(message.getTime());
-            nameText.setText(message.getSender());
 
         }
 

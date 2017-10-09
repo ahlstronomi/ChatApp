@@ -37,15 +37,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                setIp(ipField.getText().toString());
-                setUsrName(usrField.getText().toString());
 
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                if(usrField.getText().length() <= 9) {
+                    setIp(ipField.getText().toString());
+                    setUsrName(usrField.getText().toString());
 
-                intent.putExtra("ipNum", ipNum);
-                intent.putExtra("usrName", usrName);
+                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
 
-                startActivity(intent);
+                    intent.putExtra("ipNum", ipNum);
+                    intent.putExtra("usrName", usrName);
+
+                    startActivity(intent);
+                }
 
             }
         });

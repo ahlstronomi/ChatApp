@@ -9,6 +9,7 @@ public class User {
 
     private String username;
 
+
     public User(String setUsername){
         this.username = setUsername;
     }
@@ -21,4 +22,5 @@ public class User {
         this.username = u;
     }
 
-}
+    }
+

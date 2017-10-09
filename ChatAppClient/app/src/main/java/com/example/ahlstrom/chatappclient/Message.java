@@ -1,6 +1,7 @@
 package com.example.ahlstrom.chatappclient;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -16,11 +17,11 @@ public class Message {
     private String msg;
     private int type;
 
-    public Message(String sndrId, String sndr, String timeStampOrNotifivationInfo, String message) {
+    public Message(String sndrId, String sndr, String timeStampOrNotificationInfo, String message) {
 
         this.senderId = sndrId;
         this.sender = sndr;
-        this.timeOrNotificationInfo = timeStampOrNotifivationInfo;
+        this.timeOrNotificationInfo = timeStampOrNotificationInfo;
         this.msg = message;
         this.type = 0;
 
@@ -31,6 +32,7 @@ public class Message {
     }
 
     public String getSender(){
+        Log.d("getSender: ", this.sender);
         return this.sender;
     }
 
