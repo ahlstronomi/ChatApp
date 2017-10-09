@@ -6,9 +6,8 @@ import android.view.View;
 
 /**
  * Created by Ahlstrom on 5.10.2017.
- *
+ * <p>
  * Class for all chat messages, sent, received and notifications.
- *
  */
 
 
@@ -28,12 +27,11 @@ public class Message {
 
     }
 
-    public String getSenderId(){
+    public String getSenderId() {
         return this.senderId;
     }
 
-    public String getSender(){
-        Log.d("getSender: ", this.sender);
+    public String getSender() {
         return this.sender;
     }
 

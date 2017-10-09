@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +19,6 @@ import java.util.Scanner;
 
 /**
  * Created by Ahlstrom
- *
- *
  */
 
 public class ChatActivity extends AppCompatActivity {
@@ -40,14 +37,13 @@ public class ChatActivity extends AppCompatActivity {
     private Scanner in;
     private List<Message> messageList;
     private MessageListAdapter msgListAdapter;
-    private User user;
+    private String usrName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
 
         // Step 1: Set the layout
         setContentView(R.layout.activity_chat);
@@ -71,7 +67,7 @@ public class ChatActivity extends AppCompatActivity {
         // Get information from the LoginActivity
         Intent intent = getIntent();
         ipNum = intent.getStringExtra("ipNum");
-        user = new User(intent.getStringExtra("usrName"));
+        usrName = intent.getStringExtra("usrName");
 
 
         // Socket thread. This thread opens the connection and listens the input stream for messages.
@@ -84,7 +80,8 @@ public class ChatActivity extends AppCompatActivity {
                     outputStream = new PrintStream(socket.getOutputStream(), true);
                     in = new Scanner(socket.getInputStream());
 
-                    outputStream.println(user.getUsername());
+                    // Log In
+                    outputStream.println(usrName);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -100,7 +97,7 @@ public class ChatActivity extends AppCompatActivity {
                     String timeOrNotificationInfo = splitted[2];
                     String justMessage = splitted[3];
 
-                    // Listen the clients own user id from the login notification
+                    // Listen the clients own user id from the login notification, then never enters this If again.
                     if (!hasUserId && splitted[1].equals("NOTIFICATION") && splitted[0].equals("x")) {
                         msgListAdapter.setOwnUserId(timeOrNotificationInfo);
                         hasUserId = true;
@@ -109,51 +106,41 @@ public class ChatActivity extends AppCompatActivity {
                     Message msg = new Message(senderId, sender, timeOrNotificationInfo, justMessage);
                     UpdateView(msg);
 
-
                 }
             }
         }).start();
 
-        btn.setOnClickListener(new View.OnClickListener() {
 
+        // Sending messages. Start a new thread for every new message sent
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final String s = msgField.getText().toString();
-
                 new Thread(new Runnable() {
-
                     @Override
                     public void run() {
-
                         try {
                             outputStream = new PrintStream(socket.getOutputStream(), true);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Log.d("MESSAGE: ", s);
-
                         outputStream.println(s);
                     }
                 }).start();
                 msgField.getText().clear();
-
             }
         });
-
     }
 
-    private void UpdateView(final Message msg) {
 
+    // Update UI with cool bubbles
+    private void UpdateView(final Message msg) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 messageList.add(msg);
-                Log.d("Msg added to dataset: ", messageList.toString());
                 msgListAdapter.notifyDataSetChanged();
-                Log.d("Items in adapter: ", String.valueOf(msgListAdapter.getItemCount()));
-                messagesView.scrollToPosition(messageList.size()-1);
-                Log.d("UpdateView ", "Complete");
+                messagesView.scrollToPosition(messageList.size() - 1);
 
             }
         });

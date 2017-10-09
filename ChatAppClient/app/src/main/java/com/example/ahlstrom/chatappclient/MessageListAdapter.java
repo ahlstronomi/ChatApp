@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Ahlstrom on 5.10.2017.
@@ -23,14 +24,11 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     private String ownUserId;
     private Context msgContext;
     private List<Message> msgList;
-    ChatActivity chtAct = new ChatActivity();
 
-
-    public MessageListAdapter(Context context, List<Message> messageList){
+    public MessageListAdapter(Context context, List<Message> messageList) {
         msgContext = context;
         msgList = messageList;
     }
-
 
     // Set UserID to recognize received messages sender
     public void setOwnUserId(String ownUserId) {
@@ -49,9 +47,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         if (message.getSenderId().equals(ownUserId)) {
             return SENT;
-        } else if(message.getSenderId().equals("x")){
+        } else if (message.getSenderId().equals("x")) {
             return NOTIFICATION;
-        } else{
+        } else {
             return RECEIVED;
         }
     }
@@ -65,7 +63,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         if (viewType == SENT) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_sent, parent, false);
-            return new SentMessageHolderOrange(view);
+            return new SentMessageHolder(view);
         } else if (viewType == RECEIVED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_message_received, parent, false);
@@ -87,7 +85,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         switch (holder.getItemViewType()) {
             case SENT:
-                ((SentMessageHolderOrange) holder).bind(message);
+                ((SentMessageHolder) holder).bind(message);
                 break;
             case RECEIVED:
                 ((ReceivedMessageHolder) holder).bind(message);
@@ -99,9 +97,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     }
 
 
-
-    // PRIVATE CLASSES -----------------------------------------------------------------------------
-
+    // These clases are used to hold the message with a correct layouts
     private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
 
         TextView messageText, timeText, nameText;
@@ -121,11 +117,11 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     }
 
 
-    private class SentMessageHolderOrange extends RecyclerView.ViewHolder {
+    private class SentMessageHolder extends RecyclerView.ViewHolder {
 
         TextView messageText, timeText, nameText;
 
-        public SentMessageHolderOrange(View itemView) {
+        public SentMessageHolder(View itemView) {
             super(itemView);
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
@@ -135,7 +131,6 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             messageText.setText(message.getMsg());
             timeText.setText(message.getTime());
         }
-
 
     }
 

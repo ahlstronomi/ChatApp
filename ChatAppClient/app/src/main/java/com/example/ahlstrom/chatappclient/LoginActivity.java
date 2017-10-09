@@ -15,9 +15,8 @@ import java.io.PrintStream;
 
 /**
  * Created by Ahlstrom
- *
+ * <p>
  * This Activity asks for user to give a Username and IP-number to log in to the chat server.
- *
  */
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(usrField.getText().length() <= 9) {
+                if (usrField.getText().length() <= 9) {
                     setIp(ipField.getText().toString());
                     setUsrName(usrField.getText().toString());
 
@@ -62,11 +61,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void setIp(String ip){
+    private void setIp(String ip) {
         ipNum = ip;
     }
 
-    private void setUsrName(String usr){
+    private void setUsrName(String usr) {
         usrName = usr;
     }
 

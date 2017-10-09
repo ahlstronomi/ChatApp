@@ -10,17 +10,17 @@ public class User {
     private String username;
 
 
-    public User(String setUsername){
+    public User(String setUsername) {
         this.username = setUsername;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(String u){
+    public void setUsername(String u) {
         this.username = u;
     }
 
-    }
+}
 
