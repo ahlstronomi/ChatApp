@@ -96,7 +96,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     }
 
 
-    // These classes are used to hold the message with a correct layouts
+    // These clases are used to hold the message with a correct layouts
     private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
 
         TextView messageText, timeText, nameText;
