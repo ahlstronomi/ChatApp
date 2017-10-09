@@ -18,6 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Created by Ahlstrom
+ *
+ *
+ */
+
 public class ChatActivity extends AppCompatActivity {
 
     private Button btn;
@@ -42,7 +48,6 @@ public class ChatActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        // TODO FIGURE THIS SHIT OUT
 
         // Step 1: Set the layout
         setContentView(R.layout.activity_chat);
@@ -52,24 +57,24 @@ public class ChatActivity extends AppCompatActivity {
 
         // Step 2: Find view by id
         messagesView = (RecyclerView) findViewById(R.id.reyclerview_message_list);
-
         messageList = new ArrayList<>();
 
         // Step 3: New adapter
         msgListAdapter = new MessageListAdapter(this, messageList);
+
         // Step 4: Set adapter
         messagesView.setAdapter(msgListAdapter);
-        // Step 5: Set layout managerTesti
+
+        // Step 5: Set layout manager
         messagesView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Get information from the LoginActivity
         Intent intent = getIntent();
         ipNum = intent.getStringExtra("ipNum");
         user = new User(intent.getStringExtra("usrName"));
 
-        Log.d("Ip Number ", ipNum);
-        Log.d("UserName ", user.getUsername());
 
-        // SOCKET THREAD
+        // Socket thread. This thread opens the connection and listens the input stream for messages.
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -89,30 +94,19 @@ public class ChatActivity extends AppCompatActivity {
                 while (true) {
 
                     messages = in.nextLine();
-
-                    Log.d("InputStream", messages);
-
                     String[] splitted = messages.split("¢", 4);
-
                     String senderId = splitted[0];
-                    Log.d("senderId ", senderId);
-
                     String sender = splitted[1];
-                    Log.d("Sender ", sender);
-
                     String timeOrNotificationInfo = splitted[2];
-                    Log.d("Time", timeOrNotificationInfo);
-
                     String justMessage = splitted[3];
 
+                    // Listen the clients own user id from the login notification
                     if (!hasUserId && splitted[1].equals("NOTIFICATION") && splitted[0].equals("x")) {
                         msgListAdapter.setOwnUserId(timeOrNotificationInfo);
-                        Log.d("OWN USER ID ", msgListAdapter.getOwnUserId());
                         hasUserId = true;
                     }
 
                     Message msg = new Message(senderId, sender, timeOrNotificationInfo, justMessage);
-                    Log.d("Message ", msg.toString());
                     UpdateView(msg);
 
 

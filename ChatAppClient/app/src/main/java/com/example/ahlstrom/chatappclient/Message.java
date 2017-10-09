@@ -6,6 +6,9 @@ import android.view.View;
 
 /**
  * Created by Ahlstrom on 5.10.2017.
+ *
+ * Class for all chat messages, sent, received and notifications.
+ *
  */
 
 
@@ -15,7 +18,6 @@ public class Message {
     private String senderId;
     private String timeOrNotificationInfo;
     private String msg;
-    private int type;
 
     public Message(String sndrId, String sndr, String timeStampOrNotificationInfo, String message) {
 
@@ -23,7 +25,6 @@ public class Message {
         this.sender = sndr;
         this.timeOrNotificationInfo = timeStampOrNotificationInfo;
         this.msg = message;
-        this.type = 0;
 
     }
 
@@ -44,11 +45,4 @@ public class Message {
         return this.timeOrNotificationInfo;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public int getType(){
-        return this.type;
-    }
 }

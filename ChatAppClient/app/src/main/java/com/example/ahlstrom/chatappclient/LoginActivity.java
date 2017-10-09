@@ -7,10 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+
+/**
+ * Created by Ahlstrom
+ *
+ * This Activity asks for user to give a Username and IP-number to log in to the chat server.
+ *
+ */
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -19,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText ipField;
     private String usrName;
     private String ipNum;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +38,10 @@ public class LoginActivity extends AppCompatActivity {
         usrField = (EditText) findViewById(R.id.usernameField);
         ipField = (EditText) findViewById(R.id.ipnumField);
 
-
         inbtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-
 
                 if(usrField.getText().length() <= 9) {
                     setIp(ipField.getText().toString());
@@ -48,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("usrName", usrName);
 
                     startActivity(intent);
+                } else {
+                    Toast.makeText(LoginActivity.this, "Username can't be more than 9 charachters", Toast.LENGTH_SHORT).show();
+                    usrField.getText().clear();
                 }
 
             }
