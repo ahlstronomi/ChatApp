@@ -12,6 +12,7 @@ import android.widget.Toast;
  * Created by Ahlstrom
  * <p>
  * This Activity asks for user to give a Username and IP-number to log in to the chat server.
+ * This is the the activity opens first when the app starts.
  */
 
 public class LoginActivity extends AppCompatActivity {

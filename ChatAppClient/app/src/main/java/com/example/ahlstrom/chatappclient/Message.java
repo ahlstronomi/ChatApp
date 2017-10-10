@@ -1,9 +1,5 @@
 package com.example.ahlstrom.chatappclient;
 
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-
 /**
  * Created by Ahlstrom on 5.10.2017.
  * <p>
@@ -20,6 +16,11 @@ public class Message {
 
 
     public Message(String scannerIn) {
+
+        /*
+        String scannerIn has to be in format:
+        senderId¢sender¢timeOrNotificationInfo¢msg
+         */
 
         String[] splitted = scannerIn.split("¢", 4);
         this.senderId = splitted[0];

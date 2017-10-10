@@ -63,12 +63,14 @@ public class ChatActivity extends AppCompatActivity {
         ipNum = intent.getStringExtra("ipNum");
         usrName = intent.getStringExtra("usrName");
 
+
         // Socket & message receiver thread. This thread opens the connection and listens the input stream for messages.
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
 
+                    // Open the connection
                     socket = new Socket(ipNum, socketNum);
                     outputStream = new PrintStream(socket.getOutputStream(), true);
                     in = new Scanner(socket.getInputStream());
@@ -80,6 +82,8 @@ public class ChatActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
+                // Receive messages
                 while (true) {
 
                     messages = in.nextLine();
@@ -87,10 +91,10 @@ public class ChatActivity extends AppCompatActivity {
 
                     if (!messages.isEmpty()) {
 
-                        // Listen the clients own user id from the login notification, then never enters this If again.
+                        // Listen the clients own user id from the login notification and never enter this If again.
                         if (!hasUserId) {
                             String[] splitted = messages.split("¢", 4);
-                            if(splitted[1].equals("NOTIFICATION") && splitted[0].equals("x")) {
+                            if (splitted[1].equals("NOTIFICATION") && splitted[0].equals("x")) {
                                 String timeOrNotificationInfo = splitted[2];
                                 msgListAdapter.setOwnUserId(timeOrNotificationInfo);
                                 hasUserId = true;
@@ -104,6 +108,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
 
         // Sending messages. Start a new thread for every new message sent
         btn.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +131,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+
     // Update UI with cool bubbles
     private void UpdateView(final Message msg) {
         runOnUiThread(new Runnable() {
@@ -138,5 +144,6 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

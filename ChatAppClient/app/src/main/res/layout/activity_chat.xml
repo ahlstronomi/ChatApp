@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toTopOf="@+id/chatBoxLine">
     </android.support.v7.widget.RecyclerView>
 
-    <!-- A horizontal line between the chatbox and RecyclerView -->
+    <!-- Grey line dividing the Messages RecyclerView and EditText -->
     <View
         android:id="@+id/chatBoxLine"
         android:layout_width="0dp"

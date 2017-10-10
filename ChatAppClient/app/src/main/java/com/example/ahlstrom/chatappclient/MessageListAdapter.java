@@ -16,9 +16,9 @@ import java.util.List;
 
 public class MessageListAdapter extends RecyclerView.Adapter {
 
-    public static final int SENT = 1;
-    public static final int RECEIVED = 2;
-    public static final int NOTIFICATION = 0;
+    private static final int SENT = 1;
+    private static final int RECEIVED = 2;
+    private static final int NOTIFICATION = 0;
 
     private String ownUserId;
     private Context msgContext;
